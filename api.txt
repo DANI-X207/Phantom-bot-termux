@@ -1,0 +1,5 @@
+groq api: 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
+
+gemini api: AQ.Ab8RN6ItNt3xdLxstQyqMPz1AhSratBK7hkGZqyshZeB1ezNqA
+
+nvidia api: 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

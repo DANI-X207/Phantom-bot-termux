@@ -13,7 +13,6 @@ ffmpeg-*.zip
 ffmpeg-*/
 
 # Clés API et fichiers sensibles
-api.txt
 .env
 *.env
 
