@@ -16,7 +16,7 @@ pkg update -y
 echo "[2/4] Installation des paquets système…"
 # libvips + outils de compilation permettent à sharp (stickers) d'être compilé
 # pour Android au lieu de télécharger un binaire Linux incompatible.
-pkg install -y nodejs-lts npm python python-yt-dlp ffmpeg git tmux clang make pkg-config libvips
+pkg install -y nodejs-lts npm python python-yt-dlp ffmpeg git tmux clang make pkg-config libvips glib xorgproto
 
 if ! command -v node >/dev/null || ! command -v npm >/dev/null || ! command -v yt-dlp >/dev/null || ! command -v ffmpeg >/dev/null; then
     echo "Erreur : Node.js, npm, yt-dlp ou FFmpeg est indisponible après installation."
