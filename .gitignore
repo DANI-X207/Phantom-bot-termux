@@ -3,7 +3,6 @@ node_modules/
 
 # Session WhatsApp (données privées)
 session/
-sessions/
 
 # Fichiers ffmpeg (trop lourds pour GitHub)
 ffmpeg.exe
