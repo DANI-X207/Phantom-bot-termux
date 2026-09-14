@@ -110,7 +110,7 @@ async function createCoupledSession(replyTo) {
     return id;
 }
 function listSessions() {
-    return [...sessions.values()].map(record => ({ id: record.id, super: record.id === registry.superSessionId, number: record.number, status: record.status }));
+    return [...sessions.values()].map(record => ({ id: record.id, super: record.id === registry.superSessionId, number: record.number, status: record.status, qrImage: record.qrDataUrl }));
 }
 async function disconnectByNumber(rawNumber) {
     const wanted = String(rawNumber || '').replace(/\D/g, '');
@@ -156,6 +156,14 @@ app.get('/api/status', (_req, res) => {
 app.post('/api/reset', async (_req, res) => {
     try { await resetSuperSession(); res.status(202).json({ ok: true }); }
     catch (error) { res.status(500).json({ ok: false, error: error.message }); }
+});
+app.post('/api/sessions', async (_req, res) => {
+    try {
+        const id = await createCoupledSession();
+        res.status(201).json({ ok: true, id });
+    } catch (error) {
+        res.status(500).json({ ok: false, error: error.message });
+    }
 });
 const port = Number(process.env.PORT) || 3000;
 app.listen(port, () => console.log(`🌐 Tableau de bord : http://localhost:${port}`));
