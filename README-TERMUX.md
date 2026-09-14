@@ -24,7 +24,7 @@ Le tableau de bord est accessible sur le téléphone à l'adresse `http://127.0.
 
 - `yt-dlp` est installé depuis les dépôts Termux et utilisé à la place d'un binaire Linux téléchargé par npm.
 - FFmpeg est récupéré depuis Termux, sans fichier `ffmpeg.exe` Windows.
-- `sharp`, requis pour les stickers, est compilé localement avec `libvips` afin d'être compatible avec Android.
+- Les stickers utilisent la version WebAssembly de `sharp`, compatible avec Android ARMv7 et ARM64 (elle est un peu moins rapide qu'une version native).
 
 ## Garder le bot actif
 

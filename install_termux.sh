@@ -14,9 +14,9 @@ echo "[1/4] Mise à jour des dépôts Termux…"
 pkg update -y
 
 echo "[2/4] Installation des paquets système…"
-# libvips + outils de compilation permettent à sharp (stickers) d'être compilé
-# pour Android au lieu de télécharger un binaire Linux incompatible.
-pkg install -y nodejs-lts npm python python-yt-dlp ffmpeg git tmux clang make pkg-config libvips glib xorgproto
+# Les stickers utilisent le moteur WebAssembly de sharp : il fonctionne sur
+# Android ARMv7 sans binaire Linux ni compilation native.
+pkg install -y nodejs-lts npm python python-yt-dlp ffmpeg git tmux
 
 if ! command -v node >/dev/null || ! command -v npm >/dev/null || ! command -v yt-dlp >/dev/null || ! command -v ffmpeg >/dev/null; then
     echo "Erreur : Node.js, npm, yt-dlp ou FFmpeg est indisponible après installation."
@@ -24,10 +24,8 @@ if ! command -v node >/dev/null || ! command -v npm >/dev/null || ! command -v y
 fi
 
 echo "[3/4] Installation des modules Node.js pour Android…"
-# Ne jamais réutiliser node_modules depuis Windows/Linux : sharp contient du code natif.
+# Ne jamais réutiliser node_modules depuis Windows/Linux.
 rm -rf node_modules
-export npm_config_nodedir="$PREFIX"
-export npm_config_build_from_source=true
 export YOUTUBE_DL_SKIP_DOWNLOAD=1
 export YOUTUBE_DL_DIR="$PREFIX/bin"
 npm ci --omit=dev
