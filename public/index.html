@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phantom Bot — Sessions</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="panel">
+    <p class="eyebrow">PHANTOM BOT</p>
+    <h1>Centre de connexion</h1>
+    <p id="status" class="status">Démarrage…</p>
+    <section id="qr-card" hidden>
+      <img id="qr" alt="QR Code WhatsApp de la super-session">
+      <p>Scannez ce code avec le compte de la super-session.</p>
+    </section>
+    <section>
+      <h2>Sessions connectées</h2>
+      <ul id="sessions"><li>Chargement…</li></ul>
+    </section>
+    <button id="reset" type="button">Forcer une nouvelle super-session</button>
+  </main>
+  <script src="/script.js"></script>
+</body>
+</html>

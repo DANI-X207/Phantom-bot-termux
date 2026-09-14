@@ -1,0 +1,26 @@
+# Dépendances
+node_modules/
+
+# Session WhatsApp (données privées)
+session/
+sessions/
+
+# Fichiers ffmpeg (trop lourds pour GitHub)
+ffmpeg.exe
+ffplay.exe
+ffprobe.exe
+ffmpeg-*.zip
+ffmpeg-*/
+
+# Clés API et fichiers sensibles
+api.txt
+.env
+*.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# Fichiers temporaires
+*.tmp
+*.temp
