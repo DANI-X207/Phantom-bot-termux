@@ -12,8 +12,9 @@
     <h1>Centre de connexion</h1>
     <p id="status" class="status">Démarrage…</p>
     <section id="qr-card" hidden>
+      <h2>Connexion de la super-session</h2>
       <img id="qr" alt="QR Code WhatsApp de la super-session">
-      <p>Scannez ce code avec le compte de la super-session.</p>
+      <p>Scannez ce QR avec le compte principal du bot.</p>
     </section>
     <section id="new-session-card" hidden>
       <h2>Nouvelle session</h2>
@@ -24,8 +25,8 @@
       <h2>Sessions connectées</h2>
       <ul id="sessions"><li>Chargement…</li></ul>
     </section>
-    <button id="add-session" type="button" class="primary">Ajouter une session</button>
-    <button id="reset" type="button">Forcer une nouvelle super-session</button>
+    <button id="add-session" type="button" class="primary" hidden>Ajouter une session liée</button>
+    <button id="reset" type="button" hidden>Forcer une nouvelle super-session</button>
   </main>
   <script src="/script.js"></script>
 </body>

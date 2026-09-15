@@ -4,14 +4,19 @@ const qr = document.querySelector('#qr');
 const sessions = document.querySelector('#sessions');
 const newSessionCard = document.querySelector('#new-session-card');
 const newSessionQr = document.querySelector('#new-session-qr');
+const addSessionButton = document.querySelector('#add-session');
+const resetButton = document.querySelector('#reset');
 let pendingSessionId = null;
 
 async function refresh() {
   try {
     const data = await fetch('/api/status').then(res => res.json());
-    status.textContent = ({ qr: 'Scan requis', connected: 'Super-session connectée', loading: 'Démarrage…', disconnected: 'Déconnectée' })[data.status] || data.status;
+    status.textContent = ({ qr: 'Scan requis pour la super-session', connected: 'Super-session connectée', loading: 'Démarrage…', disconnected: 'Connexion de la super-session…' })[data.status] || data.status;
     qrCard.hidden = !data.qrImage;
     if (data.qrImage) qr.src = data.qrImage;
+    const superConnected = data.status === 'connected';
+    addSessionButton.hidden = !superConnected;
+    resetButton.hidden = !superConnected;
     const pendingSession = data.sessions.find(session => session.id === pendingSessionId);
     if (pendingSession?.qrImage) {
       newSessionCard.hidden = false;
@@ -27,14 +32,13 @@ async function refresh() {
     }));
   } catch (_) { status.textContent = 'Serveur inaccessible'; }
 }
-document.querySelector('#reset').addEventListener('click', async () => {
+resetButton.addEventListener('click', async () => {
   if (!confirm('Déconnecter la super-session et générer un nouveau QR ?')) return;
   await fetch('/api/reset', { method: 'POST' });
   refresh();
 });
-document.querySelector('#add-session').addEventListener('click', async () => {
-  const button = document.querySelector('#add-session');
-  button.disabled = true;
+addSessionButton.addEventListener('click', async () => {
+  addSessionButton.disabled = true;
   try {
     const response = await fetch('/api/sessions', { method: 'POST' });
     const result = await response.json();
@@ -45,7 +49,7 @@ document.querySelector('#add-session').addEventListener('click', async () => {
   } catch (error) {
     alert(error.message);
   } finally {
-    button.disabled = false;
+    addSessionButton.disabled = false;
   }
 });
 refresh(); setInterval(refresh, 2000);
