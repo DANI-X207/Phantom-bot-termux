@@ -1,4 +1,4 @@
-const { downloadContentFromMessage } = require('@whiskeysockets/baileys');
+﻿const { downloadContentFromMessage } = require('@whiskeysockets/baileys');
 const { askAI, askAIWithHistory, duckSearch, youtubeSearch, MODELS } = require('./lib/functions');
 const { Sticker, StickerTypes } = require('wa-sticker-formatter');
 const fs = require('fs');
@@ -1182,7 +1182,7 @@ module.exports = async (sock, m, { sessionId = 'super', sessionManager = null } 
                     const FormData = require('form-data');
                     const form = new FormData();
                     form.append('file', fs.createReadStream(tmpAudio), { filename: 'audio.ogg', contentType: 'audio/ogg' });
-                    form.append('model', 'whisper-large-v3');
+                    form.append('model', 'whisper-large-v3-turbo');
                     const sttHeaders = Object.assign({}, form.getHeaders(), { 'Authorization': 'Bearer ' + groqKey });
                     const sttRes = await axios.post('https://api.groq.com/openai/v1/audio/transcriptions', form, { headers: sttHeaders, timeout: 60000 });
                     try { fs.unlinkSync(tmpAudio); } catch (_) {}
@@ -1327,4 +1327,5 @@ module.exports = async (sock, m, { sessionId = 'super', sessionManager = null } 
         } catch (_) { }
     }
 };
+
 
