@@ -1204,7 +1204,7 @@ module.exports = async (sock, m, { sessionId = 'super', sessionManager = null } 
 
                     const FormData = require('form-data');
                     const form = new FormData();
-                    form.append('file', fs.createReadStream(fileToSend), { filename: udio. + fileExt, contentType: mimeType });
+                    form.append('file', fs.createReadStream(fileToSend), { filename: 'audio.' + fileExt, contentType: mimeType });
                     form.append('model', 'whisper-large-v3-turbo');
                     const sttHeaders = Object.assign({}, form.getHeaders(), { 'Authorization': 'Bearer ' + groqKey });
                     const sttRes = await axios.post('https://api.groq.com/openai/v1/audio/transcriptions', form, { headers: sttHeaders, timeout: 60000 });
@@ -1351,6 +1351,7 @@ module.exports = async (sock, m, { sessionId = 'super', sessionManager = null } 
         } catch (_) { }
     }
 };
+
 
 
 
