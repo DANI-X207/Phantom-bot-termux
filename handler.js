@@ -1178,14 +1178,38 @@ module.exports = async (sock, m, { sessionId = 'super', sessionManager = null } 
                     const audioBuffer = await downloadMedia(audioMsg, 'audio');
                     const os2 = require('os');
                     const tmpAudio = path.join(os2.tmpdir(), 'phantom_stt_' + Date.now() + '.ogg');
+                    const tmpAudioMp3 = path.join(os2.tmpdir(), 'phantom_stt_' + Date.now() + '.mp3');
                     fs.writeFileSync(tmpAudio, audioBuffer);
+                    
+                    let fileToSend = tmpAudio;
+                    let fileExt = 'ogg';
+                    let mimeType = 'audio/ogg';
+
+                    try {
+                        const ffmpeg = require('fluent-ffmpeg');
+                        await new Promise((resolve, reject) => {
+                            ffmpeg(tmpAudio)
+                                .outputOptions('-b:a', '128k')
+                                .output(tmpAudioMp3)
+                                .on('end', resolve)
+                                .on('error', reject)
+                                .run();
+                        });
+                        fileToSend = tmpAudioMp3;
+                        fileExt = 'mp3';
+                        mimeType = 'audio/mpeg';
+                    } catch (e) {
+                        console.log('[STT] FFmpeg not available or failed, falling back to original audio:', e.message);
+                    }
+
                     const FormData = require('form-data');
                     const form = new FormData();
-                    form.append('file', fs.createReadStream(tmpAudio), { filename: 'audio.ogg', contentType: 'audio/ogg' });
+                    form.append('file', fs.createReadStream(fileToSend), { filename: udio. + fileExt, contentType: mimeType });
                     form.append('model', 'whisper-large-v3-turbo');
                     const sttHeaders = Object.assign({}, form.getHeaders(), { 'Authorization': 'Bearer ' + groqKey });
                     const sttRes = await axios.post('https://api.groq.com/openai/v1/audio/transcriptions', form, { headers: sttHeaders, timeout: 60000 });
                     try { fs.unlinkSync(tmpAudio); } catch (_) {}
+                    try { fs.unlinkSync(tmpAudioMp3); } catch (_) {}
                     const transcription = sttRes.data && sttRes.data.text && sttRes.data.text.trim();
                     if (!transcription) throw new Error('Transcription vide.');
                     await sock.sendMessage(from, { text: '🎤 *Transcription :*\n\n_' + transcription + '_\n\n👻 _Phantom Bot_ ⚡' });
@@ -1327,5 +1351,7 @@ module.exports = async (sock, m, { sessionId = 'super', sessionManager = null } 
         } catch (_) { }
     }
 };
+
+
 
 
